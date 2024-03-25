@@ -31,7 +31,7 @@ class Scanframe(QMainWindow):
         self.Sendbtn.clicked.connect(self.Sendserver)
 
         # 선택된 사이트 저장 변수
-        self.selected_site = ""
+        self.selected_site = None
 
 # 사이트 선택 함수
     def SelectSite(self):
