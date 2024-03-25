@@ -58,6 +58,9 @@ class Scanframe(QMainWindow):
 if __name__ == "__main__":
     
     app = QApplication(sys.argv)
+    
+    app.setStyleSheet("QWidget { background-color: #e6e6fa; }")
+    
     #화면 전환용 widget
     widget = QtWidgets.QStackedWidget()
 
