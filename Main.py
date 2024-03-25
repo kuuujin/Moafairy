@@ -2,6 +2,8 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import QtWidgets
+from PyQt5.QtGui import *
+
 
 #메인프레임
 class Mainframe(QMainWindow):
@@ -29,9 +31,16 @@ class Scanframe(QMainWindow):
         self.Bbu.clicked.connect(self.SelectSite)
         self.Quasar.clicked.connect(self.SelectSite)
         self.Sendbtn.clicked.connect(self.Sendserver)
+        self.Homebtn.clicked.connect(self.Homebtnclick)
 
         # 선택된 사이트 저장 변수
         self.selected_site = None
+
+
+#메인프레임으로 이동 함수
+    def Homebtnclick(self):
+        widget.setCurrentIndex(widget.currentIndex()-1)
+
 
 # 사이트 선택 함수
     def SelectSite(self):
@@ -58,9 +67,7 @@ class Scanframe(QMainWindow):
 if __name__ == "__main__":
     
     app = QApplication(sys.argv)
-    
-    app.setStyleSheet("QWidget { background-color: #e6e6fa; }")
-    
+    #app.setStyleSheet("QWidget { background-color: #e6e6fa; }")
     #화면 전환용 widget
     widget = QtWidgets.QStackedWidget()
 
