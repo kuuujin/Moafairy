@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>1000</height>
+   </rect>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>230</red>
+        <green>230</green>
+        <blue>250</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>240</red>
+        <green>240</green>
+        <blue>240</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>240</red>
+        <green>240</green>
+        <blue>240</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>20</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="Scanbtn">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>660</y>
+      <width>200</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>학교안심 은하수 R</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>탐지 시작</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Titlelabel">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>70</y>
+      <width>281</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>학교안심 은하수 R</family>
+      <pointsize>48</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>모아 요정</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Searchbtn">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>660</y>
+      <width>200</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>학교안심 은하수 R</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>검색 하기</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
