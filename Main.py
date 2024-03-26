@@ -11,6 +11,7 @@ class Mainframe(QMainWindow):
         super().__init__()
         self.ui = uic.loadUi("Mainframe.ui",self)
         self.Scanbtn.clicked.connect(self.Scanbtnclick)
+        self.Searchbtn.clicked.connect(self.Searchbtnclick)
         self.show()
         
     #스캔프레임전환함수
