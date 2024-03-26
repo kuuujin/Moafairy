@@ -13,9 +13,14 @@ class Mainframe(QMainWindow):
         self.Scanbtn.clicked.connect(self.Scanbtnclick)
         self.show()
         
-    #프레임전환함수
+    #스캔프레임전환함수
     def Scanbtnclick(self):
         widget.setCurrentIndex(widget.currentIndex()+1)
+    
+    #검색프레임전환함수
+    def Searchbtnclick(self):
+        widget.setCurrentIndex(widget.currentIndex()+2)
+
 
 #스캔프레임
 class Scanframe(QMainWindow):
@@ -62,6 +67,53 @@ class Scanframe(QMainWindow):
         print(Keyword)
         Selectsite = self.selected_site
         print(Selectsite)
+
+
+#검색프레임
+class Searchframe(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("Searchframe.ui",self)
+        
+        #이벤트 함수
+        #self.변수명.clicked.connect(self.함수)
+        
+        #스캔프레임 변수
+        self.Fm.clicked.connect(self.Selectsite)
+        self.Bbu.clicked.connect(self.Selectsite)
+        self.Quasar.clicked.connect(self.Selectsite)
+        self.Sendbtn.clicked.connect(self.Sendserver)
+        self.Homebtn.clicked.connect(self.Homebtnclick)
+
+        # 선택된 사이트 저장 변수
+        self.selected_site = None
+
+
+#메인프레임으로 이동 함수
+    def Homebtnclick(self):
+        widget.setCurrentIndex(widget.currentIndex()-2)
+
+
+# 사이트 선택 함수
+    def Selectsite(self):
+        if self.Fm.isChecked():
+            self.selected_site = "fm"
+        elif self.Bbu.isChecked():
+            self.selected_site = "bbu"
+        elif self.Quasar.isChecked():
+            self.selected_site = "quasar"
+    
+
+    #서버로전송함수
+    def Sendserver(self):
+        if self.selected_site is None:
+            print("사이트를 선택하세요.")
+            return
+        
+        Keyword = self.Keyword.toPlainText()
+        print(Keyword)
+        Selectsite = self.selected_site
+        print(Selectsite)
     
 
 if __name__ == "__main__":
@@ -74,10 +126,12 @@ if __name__ == "__main__":
     #레이아웃 인스턴스
     Mainframelayout = Mainframe()
     Scanframelayout = Scanframe()
+    Searchframelayout = Searchframe()
 
     #위젯에 추가
     widget.addWidget(Mainframelayout)
     widget.addWidget(Scanframelayout)
+    widget.addWidget(Searchframelayout)
 
     widget.setFixedWidth(800)
     widget.setFixedHeight(1000)
