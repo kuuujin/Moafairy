@@ -27,9 +27,9 @@ class Scanframe(QMainWindow):
         #self.변수명.clicked.connect(self.함수)
         
         #스캔프레임 변수
-        self.Fm.clicked.connect(self.SelectSite)
-        self.Bbu.clicked.connect(self.SelectSite)
-        self.Quasar.clicked.connect(self.SelectSite)
+        self.Fm.clicked.connect(self.Selectsite)
+        self.Bbu.clicked.connect(self.Selectsite)
+        self.Quasar.clicked.connect(self.Selectsite)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
 
@@ -43,7 +43,7 @@ class Scanframe(QMainWindow):
 
 
 # 사이트 선택 함수
-    def SelectSite(self):
+    def Selectsite(self):
         if self.Fm.isChecked():
             self.selected_site = "fm"
         elif self.Bbu.isChecked():
