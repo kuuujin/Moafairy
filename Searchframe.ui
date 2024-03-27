@@ -13,12 +13,21 @@
   <property name="palette">
    <palette>
     <active>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>230</red>
+        <green>230</green>
+        <blue>250</blue>
+       </color>
+      </brush>
+     </colorrole>
      <colorrole role="Base">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
+        <red>230</red>
+        <green>230</green>
+        <blue>250</blue>
        </color>
       </brush>
      </colorrole>
@@ -33,12 +42,21 @@
      </colorrole>
     </active>
     <inactive>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>230</red>
+        <green>230</green>
+        <blue>250</blue>
+       </color>
+      </brush>
+     </colorrole>
      <colorrole role="Base">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
+        <red>230</red>
+        <green>230</green>
+        <blue>250</blue>
        </color>
       </brush>
      </colorrole>
@@ -53,6 +71,15 @@
      </colorrole>
     </inactive>
     <disabled>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>230</red>
+        <green>230</green>
+        <blue>250</blue>
+       </color>
+      </brush>
+     </colorrole>
      <colorrole role="Base">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
@@ -77,22 +104,28 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"> background-color:rgb(230, 230, 250)</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTextEdit" name="Keyword">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>210</y>
-      <width>481</width>
+      <x>140</x>
+      <y>220</y>
+      <width>381</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> background-color:rgb(250, 250, 250)</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>40</y>
+      <x>120</x>
+      <y>130</y>
       <width>291</width>
       <height>81</height>
      </rect>
@@ -116,8 +149,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>360</y>
+      <x>120</x>
+      <y>450</y>
       <width>311</width>
       <height>101</height>
      </rect>
@@ -159,6 +192,9 @@
       <pointsize>20</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true"> background-color:rgb(250, 250, 250)</string>
+    </property>
     <property name="text">
      <string>검색 시작!</string>
     </property>
@@ -166,8 +202,8 @@
    <widget class="QRadioButton" name="Fm">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>550</y>
+      <x>120</x>
+      <y>530</y>
       <width>220</width>
       <height>50</height>
      </rect>
@@ -191,8 +227,8 @@
    <widget class="QRadioButton" name="Bbu">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>550</y>
+      <x>360</x>
+      <y>530</y>
       <width>151</width>
       <height>50</height>
      </rect>
@@ -216,8 +252,8 @@
    <widget class="QRadioButton" name="Quasar">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>550</y>
+      <x>600</x>
+      <y>530</y>
       <width>220</width>
       <height>50</height>
      </rect>
@@ -241,8 +277,8 @@
    <widget class="QPushButton" name="Homebtn">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>40</y>
+      <x>640</x>
+      <y>30</y>
       <width>45</width>
       <height>45</height>
      </rect>
@@ -262,9 +298,18 @@
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
+          <red>230</red>
+          <green>230</green>
+          <blue>250</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>230</red>
+          <green>230</green>
+          <blue>250</blue>
          </color>
         </brush>
        </colorrole>
@@ -282,9 +327,18 @@
        <colorrole role="Base">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
+          <red>230</red>
+          <green>230</green>
+          <blue>250</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>230</red>
+          <green>230</green>
+          <blue>250</blue>
          </color>
         </brush>
        </colorrole>
@@ -308,11 +362,20 @@
          </color>
         </brush>
        </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>230</red>
+          <green>230</green>
+          <blue>250</blue>
+         </color>
+        </brush>
+       </colorrole>
       </disabled>
      </palette>
     </property>
     <property name="autoFillBackground">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="text">
      <string/>
@@ -326,6 +389,38 @@
       <width>45</width>
       <height>45</height>
      </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>180</y>
+      <width>75</width>
+      <height>75</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../요정 로고 2.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>500</y>
+      <width>75</width>
+      <height>75</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../요정 로고 2.png</pixmap>
     </property>
    </widget>
   </widget>
