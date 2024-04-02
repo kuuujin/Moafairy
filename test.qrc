@@ -1,5 +1,6 @@
 <RCC>
-  <qresource prefix="icon">
-    <file>home.png</file>
+  <qresource prefix="LOGO">
+    <file>요정 로고 2.png</file>
+    <file>SPEECHBUBBLE.png</file>
   </qresource>
 </RCC>
