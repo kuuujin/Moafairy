@@ -174,9 +174,9 @@
    <widget class="QPushButton" name="Sendbtn">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>80</x>
       <y>740</y>
-      <width>311</width>
+      <width>220</width>
       <height>121</height>
      </rect>
     </property>
@@ -392,6 +392,14 @@
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>75</width>
+      <height>75</height>
+     </rect>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -413,6 +421,34 @@
     </property>
     <property name="pixmap">
      <pixmap>../요정 로고 2.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Stopbtn">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>740</y>
+      <width>220</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>학교안심 은하수 R</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> background-color:rgb(250, 250, 250)</string>
+    </property>
+    <property name="text">
+     <string>탐지 중단!</string>
     </property>
    </widget>
   </widget>
