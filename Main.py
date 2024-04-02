@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow , QMessageBox
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
 
@@ -23,7 +23,7 @@ class Mainframe(QMainWindow):
         widget.setCurrentIndex(widget.currentIndex()+2)
 
 
-#스캔프레임
+#스캔프레임--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class Scanframe(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -38,7 +38,7 @@ class Scanframe(QMainWindow):
         self.Quasar.clicked.connect(self.Selectsite)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
-
+        self.Stopbtn.clicked.connect(self.Stopbtnclick)
         # 선택된 사이트 저장 변수
         self.selected_site = None
 
@@ -69,8 +69,15 @@ class Scanframe(QMainWindow):
         Selectsite = self.selected_site
         print(Selectsite)
 
+    def Stopbtnclick(self):
+        reply = QMessageBox.question(self, '중단', '탐색을 중단하시겠습니까?',
+        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
-#검색프레임
+        if reply == QMessageBox.Yes:
+            print("탐색을 중단합니다.")
+        else:
+            print("탐색을 계속 진행합니다.")
+#검색프레임--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class Searchframe(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -85,7 +92,7 @@ class Searchframe(QMainWindow):
         self.Quasar.clicked.connect(self.Selectsite)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
-
+       
         # 선택된 사이트 저장 변수
         self.selected_site = None
 
@@ -116,6 +123,7 @@ class Searchframe(QMainWindow):
         Selectsite = self.selected_site
         print(Selectsite)
     
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     
