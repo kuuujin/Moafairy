@@ -1,8 +1,13 @@
 import sys
+from Connectmodule import ClientSocket
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
+
+#서버와 연결
+Clientsocket = ClientSocket()
+Clientsocket.Connect()
 
 
 #메인프레임
