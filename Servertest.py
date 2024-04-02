@@ -13,18 +13,25 @@ Serversocket.bind((host, port))
 Serversocket.listen()
 
 print("서버가동중")
-
+client_socket, addr = Serversocket.accept()
+print(f"클라이언트 연결: {addr}")
 while True:
-    client_socket, addr = Serversocket.accept()
-    print(f"클라이언트 연결: {addr}")
+    try:    
+    
+        
+        # 클라이언트로부터 데이터를 받음
+        Data = client_socket.recv(1024)
 
-    # 클라이언트로부터 데이터를 받음
-    Data = client_socket.recv(1024)
+        Keyword, Selectstie = pickle.loads(Data)
 
-    Keyword, Selectstie = pickle.loads(Data)
+        print(f"Keyword: {Keyword}")
+        print(f"Selectstie: {Selectstie}")
 
-    print(f"Keyword: {Keyword}")
-    print(f"Selectstie: {Selectstie}")
+    except ConnectionResetError:
+        print("클라이언트 연결 종료!")
+        break
 
+    except Exception as e:
+        #print(f"예외 발생: {e}")
+        break
     # 클라이언트 소켓 종료
-    client_socket.close()

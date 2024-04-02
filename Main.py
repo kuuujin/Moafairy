@@ -3,7 +3,7 @@ import sys
 import PyQt5.uic as uic
 from Connectmodule import ClientSocket
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow , QMessageBox
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
 
@@ -45,6 +45,7 @@ class Scanframe(QMainWindow):
         self.Quasar.clicked.connect(self.Selectsite)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
+        self.Stopbtn.clicked.connect(self.Stopbtnclick)
 
         # 선택된 사이트 저장 변수
         self.selected_site = None
@@ -78,7 +79,14 @@ class Scanframe(QMainWindow):
         Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
         Clientsocket.Send(Data)
 
+    def Stopbtnclick(self):
+        reply = QMessageBox.question(self, '중단', '탐색을 중단하시겠습니까?',
+        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
+        if reply == QMessageBox.Yes:
+            print("탐색을 중단합니다.")
+        else:
+            print("탐색을 계속 진행합니다.")
 #검색프레임(스캔프레임 상속으로 코드 간결화)
 class Searchframe(Scanframe):
     def __init__(self):
@@ -95,6 +103,10 @@ class Searchframe(Scanframe):
     def Homebtnclick(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
     
+
+
+
+
 
 if __name__ == "__main__":
     
@@ -116,9 +128,14 @@ if __name__ == "__main__":
     widget.setFixedWidth(800)
     widget.setFixedHeight(1000)
     widget.show()
-
+    def Close_socket():
+        if Clientsocket:
+            Clientsocket.Disconnect()
+        
+    app.aboutToQuit.connect(Close_socket)
     #프로그램 실행
     app.exec_()
+
 
 
 
