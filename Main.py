@@ -1,4 +1,6 @@
+import pickle
 import sys
+import PyQt5.uic as uic
 from Connectmodule import ClientSocket
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -70,56 +72,28 @@ class Scanframe(QMainWindow):
             return
         
         Keyword = self.Keyword.toPlainText()
-        print(Keyword)
         Selectsite = self.selected_site
-        print(Selectsite)
+
+        Data = pickle.dumps((Keyword,Selectsite))
+        Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
+        Clientsocket.Send(Data)
 
 
-#검색프레임
-class Searchframe(QMainWindow):
+#검색프레임(스캔프레임 상속으로 코드 간결화)
+class Searchframe(Scanframe):
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi("Searchframe.ui",self)
-        
-        #이벤트 함수
-        #self.변수명.clicked.connect(self.함수)
-        
-        #스캔프레임 변수
+        self.ui = uic.loadUi("Searchframe.ui", self)
+
         self.Fm.clicked.connect(self.Selectsite)
         self.Bbu.clicked.connect(self.Selectsite)
         self.Quasar.clicked.connect(self.Selectsite)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
 
-        # 선택된 사이트 저장 변수
-        self.selected_site = None
-
-
-#메인프레임으로 이동 함수
+    # 메인프레임으로 이동 함수 (재정의)
     def Homebtnclick(self):
-        widget.setCurrentIndex(widget.currentIndex()-2)
-
-
-# 사이트 선택 함수
-    def Selectsite(self):
-        if self.Fm.isChecked():
-            self.selected_site = "fm"
-        elif self.Bbu.isChecked():
-            self.selected_site = "bbu"
-        elif self.Quasar.isChecked():
-            self.selected_site = "quasar"
-    
-
-    #서버로전송함수
-    def Sendserver(self):
-        if self.selected_site is None:
-            print("사이트를 선택하세요.")
-            return
-        
-        Keyword = self.Keyword.toPlainText()
-        print(Keyword)
-        Selectsite = self.selected_site
-        print(Selectsite)
+        widget.setCurrentIndex(widget.currentIndex() - 2)
     
 
 if __name__ == "__main__":
