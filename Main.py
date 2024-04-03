@@ -1,8 +1,15 @@
+import pickle
 import sys
+import PyQt5.uic as uic
+from Connectmodule import ClientSocket
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow , QMessageBox
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
+
+#서버와 연결
+Clientsocket = ClientSocket()
+Clientsocket.Connect()
 
 
 #메인프레임
@@ -23,7 +30,7 @@ class Mainframe(QMainWindow):
         widget.setCurrentIndex(widget.currentIndex()+2)
 
 
-#스캔프레임--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#스캔프레임
 class Scanframe(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -39,6 +46,7 @@ class Scanframe(QMainWindow):
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
         self.Stopbtn.clicked.connect(self.Stopbtnclick)
+
         # 선택된 사이트 저장 변수
         self.selected_site = None
 
@@ -65,9 +73,11 @@ class Scanframe(QMainWindow):
             return
         
         Keyword = self.Keyword.toPlainText()
-        print(Keyword)
         Selectsite = self.selected_site
-        print(Selectsite)
+
+        Data = pickle.dumps((Keyword,Selectsite))
+        Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
+        Clientsocket.Send(Data)
 
     def Stopbtnclick(self):
         reply = QMessageBox.question(self, '중단', '탐색을 중단하시겠습니까?',
@@ -77,53 +87,26 @@ class Scanframe(QMainWindow):
             print("탐색을 중단합니다.")
         else:
             print("탐색을 계속 진행합니다.")
-#검색프레임--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-class Searchframe(QMainWindow):
+#검색프레임(스캔프레임 상속으로 코드 간결화)
+class Searchframe(Scanframe):
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi("Searchframe.ui",self)
-        
-        #이벤트 함수
-        #self.변수명.clicked.connect(self.함수)
-        
-        #스캔프레임 변수
+        self.ui = uic.loadUi("Searchframe.ui", self)
+
         self.Fm.clicked.connect(self.Selectsite)
         self.Bbu.clicked.connect(self.Selectsite)
         self.Quasar.clicked.connect(self.Selectsite)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
-       
-        # 선택된 사이트 저장 변수
-        self.selected_site = None
 
-
-#메인프레임으로 이동 함수
+    # 메인프레임으로 이동 함수 (재정의)
     def Homebtnclick(self):
-        widget.setCurrentIndex(widget.currentIndex()-2)
-
-
-# 사이트 선택 함수
-    def Selectsite(self):
-        if self.Fm.isChecked():
-            self.selected_site = "fm"
-        elif self.Bbu.isChecked():
-            self.selected_site = "bbu"
-        elif self.Quasar.isChecked():
-            self.selected_site = "quasar"
+        widget.setCurrentIndex(widget.currentIndex() - 2)
     
 
-    #서버로전송함수
-    def Sendserver(self):
-        if self.selected_site is None:
-            print("사이트를 선택하세요.")
-            return
-        
-        Keyword = self.Keyword.toPlainText()
-        print(Keyword)
-        Selectsite = self.selected_site
-        print(Selectsite)
-    
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 if __name__ == "__main__":
     
@@ -145,9 +128,14 @@ if __name__ == "__main__":
     widget.setFixedWidth(800)
     widget.setFixedHeight(1000)
     widget.show()
-
+    def Close_socket():
+        if Clientsocket:
+            Clientsocket.Disconnect()
+        
+    app.aboutToQuit.connect(Close_socket)
     #프로그램 실행
     app.exec_()
+
 
 
 
