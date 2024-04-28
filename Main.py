@@ -3,7 +3,7 @@ import sys
 import PyQt5.uic as uic
 from Connectmodule import ClientSocket
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow , QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow , QComboBox , QTextEdit
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
 
@@ -39,66 +39,44 @@ class Scanframe(QMainWindow):
         #이벤트 함수
         #self.변수명.clicked.connect(self.함수)
         
+        #콤보박스
+        self.Combo_category=QComboBox(self)
+        self.Combo_category.addItems(['전체','의류','음식','전자','서적','게임'])
+        self.Combo_category.setStyleSheet("background-color:white")
+        self.Combo_category.setGeometry(120,210,91,35)
+        #키워드
+
         #스캔프레임 변수
-        self.Fm.clicked.connect(self.Selectsite)
-        self.Bbu.clicked.connect(self.Selectsite)
-        self.Quasar.clicked.connect(self.Selectsite)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
-        self.Stopbtn.clicked.connect(self.Stopbtnclick)
 
-        # 선택된 사이트 저장 변수
-        self.selected_site = None
+
 
 
 #메인프레임으로 이동 함수
     def Homebtnclick(self):
         widget.setCurrentIndex(widget.currentIndex()-1)
 
-
-# 사이트 선택 함수
-    def Selectsite(self):
-        if self.Fm.isChecked():
-            self.selected_site = "fm"
-        elif self.Bbu.isChecked():
-            self.selected_site = "bbu"
-        elif self.Quasar.isChecked():
-            self.selected_site = "quasar"
-    
-
     #서버로전송함수
     def Sendserver(self):
-        if self.selected_site is None:
-            print("사이트를 선택하세요.")
-            return
-        
         Keyword = self.Keyword.toPlainText()
-        Selectsite = self.selected_site
-
-        Data = pickle.dumps((Keyword,Selectsite))
+        Category= self.Combo_category.currentText()
+        Data = pickle.dumps((Keyword,Category))
         Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
         Clientsocket.Send(Data)
 
-    def Stopbtnclick(self):
-        reply = QMessageBox.question(self, '중단', '탐색을 중단하시겠습니까?',
-        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            print("탐색을 중단합니다.")
-        else:
-            print("탐색을 계속 진행합니다.")
 #검색프레임(스캔프레임 상속으로 코드 간결화)
 class Searchframe(Scanframe):
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("Searchframe.ui", self)
 
-        self.Fm.clicked.connect(self.Selectsite)
-        self.Bbu.clicked.connect(self.Selectsite)
-        self.Quasar.clicked.connect(self.Selectsite)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
-
+        self.Combo_category=QComboBox(self)
+        self.Combo_category.addItems(['전체','의류','음식','전자','서적','게임'])
+        self.Combo_category.setStyleSheet("background-color:white")
+        self.Combo_category.setGeometry(120,210,91,35)
     # 메인프레임으로 이동 함수 (재정의)
     def Homebtnclick(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)

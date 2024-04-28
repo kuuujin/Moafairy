@@ -22,10 +22,14 @@ while True:
         # 클라이언트로부터 데이터를 받음
         Data = client_socket.recv(1024)
 
-        Keyword, Selectstie = pickle.loads(Data)
-
-        print(f"Keyword: {Keyword}")
-        print(f"Selectstie: {Selectstie}")
+        Keyword, Category = pickle.loads(Data)
+        if(Keyword==""):
+            Keyword = "all"
+            print(f"Keyword: {Keyword}")
+            print(f"Category: {Category}")
+        else:
+            print(f"Keyword: {Keyword}")
+            print(f"Category: {Category}")
 
     except ConnectionResetError:
         print("클라이언트 연결 종료!")

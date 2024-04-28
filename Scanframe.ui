@@ -111,10 +111,10 @@
    <widget class="QTextEdit" name="Keyword">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>220</y>
+      <x>220</x>
+      <y>210</y>
       <width>381</width>
-      <height>51</height>
+      <height>35</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -125,7 +125,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>130</y>
+      <y>120</y>
       <width>281</width>
       <height>81</height>
      </rect>
@@ -143,135 +143,7 @@
      </font>
     </property>
     <property name="text">
-     <string>어떤 키워드를 탐지하시겠어요?</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>450</y>
-      <width>281</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="font">
-     <font>
-      <family>학교안심 은하수 R</family>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>어느 사이트를 탐지하시겠어요?</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Sendbtn">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>740</y>
-      <width>220</width>
-      <height>121</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="font">
-     <font>
-      <family>학교안심 은하수 R</family>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"> background-color:rgb(250, 250, 250)</string>
-    </property>
-    <property name="text">
-     <string>탐지 시작!</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="Fm">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>530</y>
-      <width>220</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="font">
-     <font>
-      <family>학교안심 은하수 R</family>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>에펨코리아</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="Bbu">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>530</y>
-      <width>151</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="font">
-     <font>
-      <family>학교안심 은하수 R</family>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>뽐뿌</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="Quasar">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>530</y>
-      <width>220</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="font">
-     <font>
-      <family>학교안심 은하수 R</family>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>퀘이사존</string>
+     <string>어떤 키워드를 스캔하시겠어요?</string>
     </property>
    </widget>
    <widget class="QPushButton" name="Homebtn">
@@ -382,7 +254,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../home.png</normaloff>../home.png</iconset>
+      <normaloff>../images/home.png</normaloff>../images/home.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -404,68 +276,53 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../요정 로고 2.png</pixmap>
+     <pixmap>../images/요정 로고 2.png</pixmap>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QPushButton" name="Sendbtn">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>500</y>
-      <width>75</width>
-      <height>75</height>
+      <x>600</x>
+      <y>210</y>
+      <width>35</width>
+      <height>35</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap>../요정 로고 2.png</pixmap>
+    <property name="icon">
+     <iconset>
+      <normaloff>../images/지팡이 아이콘.png</normaloff>../images/지팡이 아이콘.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>45</width>
+      <height>45</height>
+     </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="Stopbtn">
+   <widget class="QListView" name="Scan_crawled">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>740</y>
-      <width>220</width>
-      <height>121</height>
+      <x>130</x>
+      <y>340</y>
+      <width>521</width>
+      <height>271</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="font">
-     <font>
-      <family>학교안심 은하수 R</family>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"> background-color:rgb(250, 250, 250)</string>
-    </property>
-    <property name="text">
-     <string>탐지 중단!</string>
+    <property name="isWrapping" stdset="0">
+     <bool>false</bool>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>21</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
-  <include location="../test.qrc"/>
+  <include location="../images/test.qrc"/>
  </resources>
  <connections/>
 </ui>
