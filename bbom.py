@@ -12,7 +12,7 @@ actions = browser.find_element(By.CSS_SELECTOR , 'body')
 
 Itemselector  = "div.wrapper > div.contents > div.container > div > div.hotDeal_goods > ul > li > p > a:nth-child(2)"
 Priceselector  = "div.wrapper > div.contents > div.container > div > div.hotDeal_goods > ul > li > p > span:nth-child(1)"
-Linkselector = "div.wrapper > div.contents > div.container > div > div.hotDeal_goods > ul > li > p > div.view > a"
+Linkselector = "div.wrapper > div.contents > div.container > div > div.hotDeal_goods > ul > li > div.view > a"
 
 def crawling(count):
     items, prices, links = [], [], []
@@ -34,11 +34,11 @@ def crawling(count):
 def main():
     items, prices, links = crawling(2)
     print("가져온 상품 수: ", len(items))
-    # for i in range(len(items)):
-    #     print("상품: ", items[i])
-    #     print("가격: ", prices[i])
-    #     print("주소: ", links[i])
-    #     print('\n')
-    print(links)
+    for i in range(len(items)):
+        print("상품: ", items[i])
+        print("가격: ", prices[i])
+        print("주소: ", links[i])
+        print('\n')
+    
 if __name__=="__main__":
     main()
