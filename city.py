@@ -6,9 +6,8 @@ import datetime
 import re
 import sys
 import io
-import requests
-sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+#sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'UTF-8')
+#sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'UTF-8')
 Count = 1
 Today = datetime.datetime.now()
 Fmurl = 'https://www.city.kr/index.php?mid=ln'
@@ -21,9 +20,9 @@ for Count in range(int(50000/10)):
     Fmurl_page = Fmurl + Page_parameter
     Html = urllib.request.urlopen(Fmurl_page)
     # BeautifulSoup 객체 생성
-    soup = BeautifulSoup(req.content, 'html.parser',from_encoding='utf-8')
+    soup = BeautifulSoup(Html, 'html.parser')
     Count = Count + 1
-    for i in range(1,21):
+    for i in range(1,20):
         title,category,timestamp = [] , [] , []
         title = soup.find_all('a', class_='hx')[i].text.strip()
         #category = soup.find_all('table', class_='divsn text_over')[i].find_all('a').text.strip()
@@ -37,7 +36,7 @@ for Count in range(int(50000/10)):
             To_date=datetime.datetime.strptime(timestamp,'%Y/%m/%d')
             To_date=To_date.strftime("%Y.%m.%d")
             To_date=datetime.datetime.strptime(To_date,'%Y.%m.%d')
-        if  ((Today-To_date).days >= 30): # 일차가 1년을 넘으면 반복문 중단
+        if  ((Today-To_date).days >= 20): # 일차가 1년을 넘으면 반복문 중단
             break
         else:
             print(f"Title : {title}")
