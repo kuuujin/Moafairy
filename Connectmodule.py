@@ -1,8 +1,8 @@
 import socket
 
 Modulevariable = None
-Serverip = 'localhost'
-Serverport = 12345
+Serverip = '34.47.77.2'
+Serverport = 8888
 
 
 class ClientSocket():
