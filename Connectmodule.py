@@ -1,7 +1,7 @@
 import socket
 
 Modulevariable = None
-Serverip = '34.47.77.2'
+Serverip = '35.216.101.141'
 Serverport = 8888
 
 
