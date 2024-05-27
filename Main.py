@@ -6,11 +6,29 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow , QComboBox , QTextEdit
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
+import requests
+import webbrowser
+
+
 
 #서버와 연결
 Clientsocket = ClientSocket()
 Clientsocket.Connect()
 
+
+class Loginframe(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("Loginframe.ui",self)
+        self.Loginbtn.clicked.connect(self.login)
+        self.setMinimumSize(640, 480)
+        self.setMaximumSize(800, 600)
+        
+
+
+    def login(self):
+        webbrowser.open('http://35.216.101.141:5000/login')
+    
 
 #메인프레임
 class Mainframe(QMainWindow):
@@ -61,7 +79,9 @@ class Scanframe(QMainWindow):
     def Sendserver(self):
         Keyword = self.Keyword.toPlainText()
         Category= self.Combo_category.currentText()
-        Data = pickle.dumps((Keyword,Category))
+        Msg_source='scan'
+        
+        Data = pickle.dumps((Msg_source,Keyword,Category))
         Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
         Clientsocket.Send(Data)
 
@@ -82,8 +102,15 @@ class Searchframe(Scanframe):
         widget.setCurrentIndex(widget.currentIndex() - 2)
     
 
-
-
+    #서버로전송함수
+    def Sendserver(self):
+        Keyword = self.Keyword.toPlainText()
+        Category= self.Combo_category.currentText()
+        Msg_source='search'
+        
+        Data = pickle.dumps((Msg_source,Keyword,Category))
+        Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
+        Clientsocket.Send(Data)
 
 
 if __name__ == "__main__":
@@ -94,15 +121,16 @@ if __name__ == "__main__":
     widget = QtWidgets.QStackedWidget()
 
     #레이아웃 인스턴스
+    Loginframelayout = Loginframe()
     Mainframelayout = Mainframe()
     Scanframelayout = Scanframe()
     Searchframelayout = Searchframe()
 
     #위젯에 추가
+    widget.addWidget(Loginframelayout)
     widget.addWidget(Mainframelayout)
     widget.addWidget(Scanframelayout)
     widget.addWidget(Searchframelayout)
-
     widget.setFixedWidth(800)
     widget.setFixedHeight(1000)
     widget.show()
