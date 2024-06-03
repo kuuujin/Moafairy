@@ -1,6 +1,6 @@
 from PyQt5 import uic, QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QTableWidgetItem
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+#from PyQt5.QtWebEngineWidgets import QWebEngineView
 import requests
 import sys
 import threading
@@ -120,15 +120,16 @@ class ResultFrame(QMainWindow):
         categories = Recv_data["categories"]
         links = Recv_data["links"]
         timestamps = Recv_data["timestamps"]
+        print(titles)
 
 
 
-        for i in range(10):  # 5행에 대하여
-            self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
-            self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
-            self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
-            self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
-            self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
+        # for i in range(10):  # 5행에 대하여
+        #     self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
+        #     self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
+        #     self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
+        #     self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
+        #     self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
             
 
 

@@ -56,10 +56,10 @@ class ClientSocket():
             data = self.socket.recv(1024)
             if not data:
                 return print("데이터 가져온 정보 없음")
-                
             else:
+                Data = pickle.loads(data)
                 print("데이터 수신 성공")
-                return data
+                return Data
         except Exception as e:
             print("데이터 수신 실패:", e)
             return None
