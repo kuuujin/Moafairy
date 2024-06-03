@@ -53,7 +53,7 @@ class ClientSocket():
         if not self.connected:
             raise Exception("서버에 연결되지 않았습니다")
         try:
-            data = self.socket.recv(1024)
+            data = self.socket.recv(8192)
             if not data:
                 return print("데이터 가져온 정보 없음")
             else:

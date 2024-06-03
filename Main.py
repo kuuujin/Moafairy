@@ -1,5 +1,7 @@
 from PyQt5 import uic, QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QTableWidgetItem , QAbstractItemView
+from PyQt5.QtGui import QColor, QFont
+from PyQt5.QtCore import Qt
 #from PyQt5.QtWebEngineWidgets import QWebEngineView
 import requests
 import sys
@@ -109,6 +111,8 @@ class ResultFrame(QMainWindow):
         # 테이블 위젯 설정: 10행 5열
         self.ui.tableWidget.setRowCount(10)
         self.ui.tableWidget.setColumnCount(5)
+        self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
         # 열 제목 설정 (예시)
         self.ui.tableWidget.setHorizontalHeaderLabels(["상품명", "가격", "카테고리", "주소링크", "등록시간"])
 
@@ -124,13 +128,13 @@ class ResultFrame(QMainWindow):
 
 
 
-        # for i in range(10):  # 5행에 대하여
-        #     self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
-        #     self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
-        #     self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
-        #     self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
-        #     self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
-            
+        for i in range(len(titles)):  # 5행에 대하여
+    # 제목, 가격, 카테고리, 타임스탬프 열 설정
+            self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
+            self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
+            self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
+            self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
+            self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
 
 
 
@@ -162,6 +166,5 @@ if __name__ == "__main__":
 
     app.aboutToQuit.connect(Close_socket)
     app.exec_()
-
 
 
