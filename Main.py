@@ -1,29 +1,23 @@
-import pickle
+from PyQt5 import uic, QtWidgets, QtCore
+from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QTableWidgetItem
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+import requests
 import sys
 import threading
 import webbrowser
-import requests
+import pickle
 from Connectmodule import ClientSocket
-from PyQt5 import uic, QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QVBoxLayout, QStackedWidget
-from PyQt5 import QtWidgets
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-
+import asyncio
 #서버와 연결
 Clientsocket = ClientSocket()
 Clientsocket.Connect()
 
 
-class LoginFrame(QtWidgets.QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.ui = uic.loadUi("loginframe.ui", self)
-        self.ui.Loginbtn.clicked.connect(self.open_login_page)
-    
-    def open_login_page(self):
-        # 외부 브라우저를 열어서 로그인 페이지로 이동
-        login_url = "http://35.216.101.141:5000/login"  # 로그인 페이지 URL 설정
-        webbrowser.open(login_url)
+
+
+
+        
+       
 
 # 메인 프레임
 class MainFrame(QMainWindow):
@@ -34,25 +28,7 @@ class MainFrame(QMainWindow):
         self.Searchbtn.clicked.connect(self.Searchbtnclick)
         self.show()
 
-    def check_token_validity(self):
-        # 서버에서 로그인 토큰의 유효성을 확인하는 요청을 보냅니다.
-        token = self.get_saved_token()
-        if token:
-            response = requests.post("http://35.216.101.141:5000/verify_token", json={"token": token})
-            if response.status_code == 200:
-                # 토큰이 유효한 경우 메인 프레임으로 전환합니다.
-                widget.setCurrentIndex(widget.currentIndex() + 1)
-                # 토큰 확인을 더 이상 반복하지 않고 중지합니다.
-                self.stop_token_checking()
-
-    def stop_token_checking(self):
-        # 토큰 확인 작업을 중지합니다.
-        self.token_checking_timer.cancel()
-    
-    def get_saved_token(self):
-        # 클라이언트에서 저장된 로그인 토큰을 반환합니다.
-        # 여기서는 임의의 값인 "saved_token"을 반환하도록 설정합니다.
-        return "saved_token"
+   
 
     def Scanbtnclick(self):
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -62,6 +38,7 @@ class MainFrame(QMainWindow):
 
 # 스캔 프레임
 class ScanFrame(QMainWindow):
+    Funcs='scan'
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("ScanFrame.ui", self)
@@ -71,6 +48,7 @@ class ScanFrame(QMainWindow):
         self.Combo_category.setGeometry(120, 210, 91, 35)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
+        
 
     def Homebtnclick(self):
         widget.setCurrentIndex(widget.currentIndex() - 1)
@@ -78,12 +56,20 @@ class ScanFrame(QMainWindow):
     def Sendserver(self):
         Keyword = self.Keyword.toPlainText()
         Category = self.Combo_category.currentText()
-        Data = pickle.dumps((Keyword, Category))
+        Funcs = self.Funcs
+        Data = pickle.dumps((Keyword, Category, Funcs))
         Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
         Clientsocket.Send(Data)
+        result_frame = ResultFrame()
+        result_frame.show()
+        
+
+        
+
 
 # 검색 프레임
 class SearchFrame(ScanFrame):
+    Funcs='search'
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("SearchFrame.ui", self)
@@ -96,25 +82,76 @@ class SearchFrame(ScanFrame):
 
     def Homebtnclick(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
+    
+    def Sendserver(self):
+        Keyword = self.Keyword.toPlainText()
+        Category = self.Combo_category.currentText()
+        Funcs = self.Funcs
+        Data = pickle.dumps((Keyword, Category, Funcs))
+        Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
+        Clientsocket.Send(Data)
+        #새로운 창으로 결과프레임(ResultFrame)이 떠야함
+        result_frame = ResultFrame()
+        result_frame.show()
+        
+    
+
+
+
+class ResultFrame(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("ResultFrame.ui", self)
+        self.setupTable()
+        self.display_results()
+
+    def setupTable(self):
+        # 테이블 위젯 설정: 10행 5열
+        self.ui.tableWidget.setRowCount(10)
+        self.ui.tableWidget.setColumnCount(5)
+        # 열 제목 설정 (예시)
+        self.ui.tableWidget.setHorizontalHeaderLabels(["상품명", "가격", "카테고리", "주소링크", "등록시간"])
+
+
+    def display_results(self):
+        Recv_data=Clientsocket.Recv()
+        titles = Recv_data["titles"]
+        prices = Recv_data["prices"]
+        categories = Recv_data["categories"]
+        links = Recv_data["links"]
+        timestamps = Recv_data["timestamps"]
+
+
+
+        for i in range(10):  # 5행에 대하여
+            self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
+            self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
+            self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
+            self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
+            self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
+            
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     widget = QtWidgets.QStackedWidget()
-
-    login_frame = LoginFrame()
+    
+    
     main_frame = MainFrame()
     scan_frame = ScanFrame()
     search_frame = SearchFrame()
-
-    widget.addWidget(login_frame)
     widget.addWidget(main_frame)
     widget.addWidget(scan_frame)
     widget.addWidget(search_frame)
     widget.setFixedWidth(800)
     widget.setFixedHeight(1000)
 
-    main_frame.token_checking_timer = threading.Timer(20.0, main_frame.check_token_validity)
-    main_frame.token_checking_timer.start()
 
     widget.show()
 
@@ -124,7 +161,6 @@ if __name__ == "__main__":
 
     app.aboutToQuit.connect(Close_socket)
     app.exec_()
-
 
 
 
