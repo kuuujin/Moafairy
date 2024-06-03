@@ -1,5 +1,6 @@
 import socket
-
+import pickle
+import select
 Modulevariable = None
 Serverip = '35.216.101.141'
 Serverport = 8888
@@ -45,6 +46,26 @@ class ClientSocket():
         except Exception as e:
             print("데이터 전송 실패:", e)
 
+ 
+
+
+    def Recv(self):
+        if not self.connected:
+            raise Exception("서버에 연결되지 않았습니다")
+        try:
+            data = self.socket.recv(1024)
+            if not data:
+                return print("데이터 가져온 정보 없음")
+                
+            else:
+                print("데이터 수신 성공")
+                return data
+        except Exception as e:
+            print("데이터 수신 실패:", e)
+            return None
+
+
     #연결확인함수
     def IsConnected(self):
         return self.connected
+    
