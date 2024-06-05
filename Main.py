@@ -100,42 +100,42 @@ class SearchFrame(ScanFrame):
 
 
 
-# class ResultFrame(QMainWindow):
-#     def __init__(self):
-#         super().__init__()
-#         self.ui = uic.loadUi("ResultFrame.ui", self)
-#         self.setupTable()
-#         self.display_results()
+class ResultFrame(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("ResultFrame.ui", self)
+        self.setupTable()
+        self.display_results()
 
-#     def setupTable(self):
-#         # 테이블 위젯 설정: 10행 5열
-#         self.ui.tableWidget.setRowCount(10)
-#         self.ui.tableWidget.setColumnCount(5)
-#         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+    def setupTable(self):
+        # 테이블 위젯 설정: 10행 5열
+        self.ui.tableWidget.setRowCount(10)
+        self.ui.tableWidget.setColumnCount(5)
+        self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
-#         # 열 제목 설정 (예시)
-#         self.ui.tableWidget.setHorizontalHeaderLabels(["상품명", "가격", "카테고리", "주소링크", "등록시간"])
-
-
-#     def display_results(self):
-#         Recv_data=Clientsocket.Recv()
-#         # while not self.isHidden():
-#         titles = Recv_data["titles"]
-#         prices = Recv_data["prices"]
-#         categories = Recv_data["categories"]
-#         links = Recv_data["links"]
-#         timestamps = Recv_data["timestamps"]
-#         print(titles)
+        # 열 제목 설정 (예시)
+        self.ui.tableWidget.setHorizontalHeaderLabels(["상품명", "가격", "카테고리", "주소링크", "등록시간"])
 
 
+    def display_results(self):
+        Recv_data=Clientsocket.Recv()
+        # while not self.isHidden():
+        titles = Recv_data["titles"]
+        prices = Recv_data["prices"]
+        categories = Recv_data["categories"]
+        links = Recv_data["links"]
+        timestamps = Recv_data["timestamps"]
+        print(titles)
 
-#         for i in range(len(titles)): 
-#     # 제목, 가격, 카테고리, 타임스탬프 열 설정
-#             self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
-#             self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
-#             self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
-#             self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
-#             self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
+
+
+        for i in range(len(titles)): 
+    # 제목, 가격, 카테고리, 타임스탬프 열 설정
+            self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
+            self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
+            self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
+            self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
+            self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
 
 
 
@@ -162,27 +162,37 @@ class ResultFrame(QMainWindow):
         self.ui.tableWidget.setHorizontalHeaderLabels(["상품명", "가격", "카테고리", "주소링크", "등록시간"])
 
     def display_results(self):
-        Recv_data = Clientsocket.Recv()
-        titles = Recv_data["titles"]
-        prices = Recv_data["prices"]
-        categories = Recv_data["categories"]
-        links = Recv_data["links"]
-        timestamps = Recv_data["timestamps"]
-        print(titles)
+    # 데이터가 이미 저장되어 있다면 그것을 사용
+        if hasattr(self, "titles") and hasattr(self, "prices") and hasattr(self, "categories") and hasattr(self, "links") and hasattr(self, "timestamps"):
+            pass
+    # 아니면 새로 가져오기
+        else:
+            Recv_data = Clientsocket.Recv()
+            self.titles = Recv_data["titles"]
+            self.prices = Recv_data["prices"]
+            self.categories = Recv_data["categories"]
+            self.links = Recv_data["links"]
+            self.timestamps = Recv_data["timestamps"]
 
-        self.total_pages = (len(titles) + 9) // 10  # 총 페이지 수 계산
+        self.total_pages = (len(self.titles) + 9) // 10  # 총 페이지 수 계산
         start_idx = (self.current_page - 1) * 10
-        end_idx = min(start_idx + 10, len(titles))
+        end_idx = min(start_idx + 10, len(self.titles))
 
-        # 페이지 번호 표시
+    # 페이지 번호 표시
         self.ui.pageLabel.setText(f"Page {self.current_page}/{self.total_pages}")
 
+    # 테이블 위젯 초기화
+        self.ui.tableWidget.clearContents()
+
+    # 행 개수 고정
+        self.ui.tableWidget.setRowCount(end_idx - start_idx)
+
         for i in range(start_idx, end_idx):
-            self.ui.tableWidget.setItem(i - start_idx, 0, QTableWidgetItem(titles[i]))
-            self.ui.tableWidget.setItem(i - start_idx, 1, QTableWidgetItem(prices[i]))
-            self.ui.tableWidget.setItem(i - start_idx, 2, QTableWidgetItem(categories[i]))
-            self.ui.tableWidget.setItem(i - start_idx, 3, QTableWidgetItem(links[i]))
-            self.ui.tableWidget.setItem(i - start_idx, 4, QTableWidgetItem(timestamps[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 0, QTableWidgetItem(self.titles[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 1, QTableWidgetItem(self.prices[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 2, QTableWidgetItem(self.categories[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 3, QTableWidgetItem(self.links[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 4, QTableWidgetItem(self.timestamps[i]))
 
     def prev_page(self):
         if self.current_page > 1:
@@ -193,7 +203,6 @@ class ResultFrame(QMainWindow):
         if self.current_page < self.total_pages:
             self.current_page += 1
             self.display_results()
-
 
 
 
