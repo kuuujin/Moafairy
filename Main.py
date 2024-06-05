@@ -100,25 +100,69 @@ class SearchFrame(ScanFrame):
 
 
 
+# class ResultFrame(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.ui = uic.loadUi("ResultFrame.ui", self)
+#         self.setupTable()
+#         self.display_results()
+
+#     def setupTable(self):
+#         # 테이블 위젯 설정: 10행 5열
+#         self.ui.tableWidget.setRowCount(10)
+#         self.ui.tableWidget.setColumnCount(5)
+#         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
+#         # 열 제목 설정 (예시)
+#         self.ui.tableWidget.setHorizontalHeaderLabels(["상품명", "가격", "카테고리", "주소링크", "등록시간"])
+
+
+#     def display_results(self):
+#         Recv_data=Clientsocket.Recv()
+#         # while not self.isHidden():
+#         titles = Recv_data["titles"]
+#         prices = Recv_data["prices"]
+#         categories = Recv_data["categories"]
+#         links = Recv_data["links"]
+#         timestamps = Recv_data["timestamps"]
+#         print(titles)
+
+
+
+#         for i in range(len(titles)): 
+#     # 제목, 가격, 카테고리, 타임스탬프 열 설정
+#             self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
+#             self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
+#             self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
+#             self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
+#             self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
+
+
+
 class ResultFrame(QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi("ResultFrame.ui", self)
         self.setupTable()
+        self.current_page = 1
+        self.total_pages = 1
         self.display_results()
+
+        # 페이지 이동 버튼 클릭 이벤트 연결
+        self.ui.prevBtn.clicked.connect(self.prev_page)
+        self.ui.nextBtn.clicked.connect(self.next_page)
 
     def setupTable(self):
         # 테이블 위젯 설정: 10행 5열
         self.ui.tableWidget.setRowCount(10)
         self.ui.tableWidget.setColumnCount(5)
-        self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # 열 제목 설정 (예시)
         self.ui.tableWidget.setHorizontalHeaderLabels(["상품명", "가격", "카테고리", "주소링크", "등록시간"])
 
-
     def display_results(self):
-        Recv_data=Clientsocket.Recv()
+        Recv_data = Clientsocket.Recv()
         titles = Recv_data["titles"]
         prices = Recv_data["prices"]
         categories = Recv_data["categories"]
@@ -126,18 +170,29 @@ class ResultFrame(QMainWindow):
         timestamps = Recv_data["timestamps"]
         print(titles)
 
+        self.total_pages = (len(titles) + 9) // 10  # 총 페이지 수 계산
+        start_idx = (self.current_page - 1) * 10
+        end_idx = min(start_idx + 10, len(titles))
 
+        # 페이지 번호 표시
+        self.ui.pageLabel.setText(f"Page {self.current_page}/{self.total_pages}")
 
-        for i in range(len(titles)):  # 5행에 대하여
-    # 제목, 가격, 카테고리, 타임스탬프 열 설정
-            self.ui.tableWidget.setItem(i, 0, QTableWidgetItem(titles[i]))
-            self.ui.tableWidget.setItem(i, 1, QTableWidgetItem(prices[i]))
-            self.ui.tableWidget.setItem(i, 2, QTableWidgetItem(categories[i]))
-            self.ui.tableWidget.setItem(i, 3, QTableWidgetItem(links[i]))
-            self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
+        for i in range(start_idx, end_idx):
+            self.ui.tableWidget.setItem(i - start_idx, 0, QTableWidgetItem(titles[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 1, QTableWidgetItem(prices[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 2, QTableWidgetItem(categories[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 3, QTableWidgetItem(links[i]))
+            self.ui.tableWidget.setItem(i - start_idx, 4, QTableWidgetItem(timestamps[i]))
 
+    def prev_page(self):
+        if self.current_page > 1:
+            self.current_page -= 1
+            self.display_results()
 
-
+    def next_page(self):
+        if self.current_page < self.total_pages:
+            self.current_page += 1
+            self.display_results()
 
 
 
