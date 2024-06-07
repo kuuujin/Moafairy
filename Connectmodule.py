@@ -1,6 +1,7 @@
 import socket
 import pickle
 import select
+import struct
 Modulevariable = None
 Serverip = '35.216.101.141'
 Serverport = 8888
@@ -48,23 +49,37 @@ class ClientSocket():
 
  
 
-
+# 클라이언트 측 코드
     def Recv(self):
         if not self.connected:
             raise Exception("서버에 연결되지 않았습니다")
         try:
-            data = self.socket.recv(8192)
-            if not data:
-                return print("데이터 가져온 정보 없음")
-            else:
-                Data = pickle.loads(data)
-                print("데이터 수신 성공")
-                return Data
+            # 서버로부터 데이터 크기 정보 수신
+            data_size_bytes = self.socket.recv(struct.calcsize('I'))
+            self.expected_data_size = struct.unpack('I', data_size_bytes)[0]
+            print(f"Expected data size: {self.expected_data_size}")
+
+            data = b''
+            total_size = 0
+            while True:
+                chunk = self.socket.recv(65536)
+                if not chunk:
+                    print("데이터 수신 완료")
+                    break
+                data += chunk
+                total_size += len(chunk)
+                print(f"수신한 데이터 크기: {total_size}")
+            
+            # 수신한 데이터 크기가 서버가 보낸 데이터 크기와 같으면 break
+                if total_size == self.expected_data_size:
+                    print("데이터 수신 완료")
+                    break
+            Data = pickle.loads(data)
+            print("데이터 수신 성공")
+            return Data
         except Exception as e:
             print("데이터 수신 실패:", e)
             return None
-
-
     #연결확인함수
     def IsConnected(self):
         return self.connected
