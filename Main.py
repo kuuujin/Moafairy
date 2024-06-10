@@ -47,7 +47,7 @@ class ScanFrame(QMainWindow):
         self.Combo_category = QComboBox(self)
         self.Combo_category.addItems(['전체', '의류', '음식', '전자', '서적', '게임'])
         self.Combo_category.setStyleSheet("background-color:white")
-        self.Combo_category.setGeometry(120, 210, 91, 35)
+        self.Combo_category.setGeometry(80, 410, 91,51)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
         
@@ -59,7 +59,7 @@ class ScanFrame(QMainWindow):
         Keyword = self.Keyword.toPlainText()
         Category = self.Combo_category.currentText()
         Funcs = self.Funcs
-        Data = pickle.dumps((Keyword, Category, Funcs))
+        Data = pickle.dumps((Keyword,Category,Funcs))
         Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
         Clientsocket.Send(Data)
         result_frame = ResultFrame()
@@ -77,19 +77,15 @@ class SearchFrame(ScanFrame):
         self.ui = uic.loadUi("SearchFrame.ui", self)
         self.Sendbtn.clicked.connect(self.Sendserver)
         self.Homebtn.clicked.connect(self.Homebtnclick)
-        self.Combo_category = QComboBox(self)
-        self.Combo_category.addItems(['전체', '의류', '음식', '전자', '서적', '게임'])
-        self.Combo_category.setStyleSheet("background-color:white")
-        self.Combo_category.setGeometry(120, 210, 91, 35)
+
 
     def Homebtnclick(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
     
     def Sendserver(self):
         Keyword = self.Keyword.toPlainText()
-        Category = self.Combo_category.currentText()
         Funcs = self.Funcs
-        Data = pickle.dumps((Keyword, Category, Funcs))
+        Data = pickle.dumps((Keyword, Funcs))
         Clientsocket = getattr(sys.modules[__name__], "Clientsocket")
         Clientsocket.Send(Data)
         #새로운 창으로 결과프레임(ResultFrame)이 떠야함
@@ -138,7 +134,6 @@ class ResultFrame(QMainWindow):
             self.ui.tableWidget.setItem(i, 4, QTableWidgetItem(timestamps[i]))
 
 
-
 class ResultFrame(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -161,11 +156,14 @@ class ResultFrame(QMainWindow):
         # 열 제목 설정 (예시)
         self.ui.tableWidget.setHorizontalHeaderLabels(["상품명", "가격", "카테고리", "주소링크", "등록시간"])
 
+        # 테이블 셀 클릭 시 링크로 이동하는 이벤트 핸들러 연결
+        self.ui.tableWidget.itemClicked.connect(self.open_link)
+
     def display_results(self):
-    # 데이터가 이미 저장되어 있다면 그것을 사용
+        # 데이터가 이미 저장되어 있다면 그것을 사용
         if hasattr(self, "titles") and hasattr(self, "prices") and hasattr(self, "categories") and hasattr(self, "links") and hasattr(self, "timestamps"):
             pass
-    # 아니면 새로 가져오기
+        # 아니면 새로 가져오기
         else:
             Recv_data = Clientsocket.Recv()
             self.titles = Recv_data["titles"]
@@ -178,20 +176,30 @@ class ResultFrame(QMainWindow):
         start_idx = (self.current_page - 1) * 10
         end_idx = min(start_idx + 10, len(self.titles))
 
-    # 페이지 번호 표시
+        # 페이지 번호 표시
         self.ui.pageLabel.setText(f"Page {self.current_page}/{self.total_pages}")
 
-    # 테이블 위젯 초기화
+        # 테이블 위젯 초기화
         self.ui.tableWidget.clearContents()
 
-    # 행 개수 고정
+        # 행 개수 고정
         self.ui.tableWidget.setRowCount(end_idx - start_idx)
 
         for i in range(start_idx, end_idx):
             self.ui.tableWidget.setItem(i - start_idx, 0, QTableWidgetItem(self.titles[i]))
             self.ui.tableWidget.setItem(i - start_idx, 1, QTableWidgetItem(self.prices[i]))
             self.ui.tableWidget.setItem(i - start_idx, 2, QTableWidgetItem(self.categories[i]))
-            self.ui.tableWidget.setItem(i - start_idx, 3, QTableWidgetItem(self.links[i]))
+
+            # 링크 URL을 저장하고 셀을 클릭하면 링크로 이동하도록 설정
+            link_item = QTableWidgetItem(self.links[i])
+            link_item.setData(Qt.UserRole, self.links[i])  # 링크 URL을 사용자 데이터로 저장
+            link_item.setFlags(link_item.flags() | Qt.ItemIsEnabled | Qt.ItemIsSelectable)  # 셀 선택 가능
+            font = link_item.font()
+            font.setUnderline(True)
+            link_item.setForeground(Qt.blue)
+            link_item.setFont(font)
+            self.ui.tableWidget.setItem(i - start_idx, 3, link_item)
+
             self.ui.tableWidget.setItem(i - start_idx, 4, QTableWidgetItem(self.timestamps[i]))
 
     def prev_page(self):
@@ -204,7 +212,11 @@ class ResultFrame(QMainWindow):
             self.current_page += 1
             self.display_results()
 
-
+    def open_link(self, item):
+        if item.column() == 3:  # 링크 열일 경우에만 실행
+            link = item.data(Qt.UserRole)
+            # 사용자 데이터에 저장된 링크 URL 가져오기
+            webbrowser.open(link, new=2)
 
 
 if __name__ == "__main__":
@@ -230,5 +242,4 @@ if __name__ == "__main__":
 
     app.aboutToQuit.connect(Close_socket)
     app.exec_()
-
 
